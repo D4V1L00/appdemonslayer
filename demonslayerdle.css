@@ -1,0 +1,343 @@
+:root {
+  --bg-1: #020b12;
+  --bg-2: #061b2b;
+  --panel: #081d2b;
+  --panel-soft: #0d2a3e;
+  --border: rgba(137, 203, 242, 0.28);
+  --text: #edfaff;
+  --muted: #a6d8eb;
+  --accent: #0c3855;
+  --accent-2: #69c3ee;
+  --success: #7fe0d0;
+  --danger: #ff7676;
+  --warning: #a9e3ff;
+  --paper: #040d15;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Blood Crow", Georgia, "Times New Roman", serif;
+  background:
+    radial-gradient(circle at top, rgba(105, 195, 238, 0.14), transparent 30%),
+    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  color: var(--text);
+}
+
+.game-shell {
+  width: min(1080px, calc(100% - 26px));
+  margin: 32px auto 34px;
+  padding: 28px 22px 32px;
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
+  box-shadow: none;
+}
+
+.topbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.brand-banner {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(7, 18, 24, 0.98), rgba(4, 12, 18, 0.98));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.brand-banner::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(137, 203, 242, 0.7), transparent);
+}
+
+.brand-left,
+.brand-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-left {
+  justify-content: flex-start;
+}
+
+.brand-logo {
+  display: block;
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  filter: none;
+  margin-left: 4px;
+}
+
+.brand-center {
+  flex-direction: column;
+  text-align: left;
+  align-items: flex-start;
+  justify-self: center;
+  width: min(100%, 700px);
+  margin-left: 8px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 2.3vw, 2.7rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.panel {
+  position: relative;
+  background: rgba(14, 24, 31, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-row input {
+  flex: 1;
+  max-width: 500px;
+  border: 1px solid rgba(137, 203, 242, 0.22);
+  border-radius: 10px;
+  background: rgba(2, 10, 16, 0.92);
+  color: var(--text);
+  font-size: 1rem;
+  padding: 15px 18px;
+  outline: none;
+}
+
+.input-row input:focus {
+  border-color: rgba(209, 161, 77, 0.7);
+  box-shadow: none;
+}
+
+.input-row input::placeholder {
+  color: var(--muted);
+}
+
+.input-row button {
+  border: 1px solid rgba(134, 201, 235, 0.35);
+  border-radius: 10px;
+  padding: 15px 24px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #edfaff;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.input-row button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.status-message {
+  min-height: 38px;
+  margin-top: 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.status-message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.status-message.info {
+  background: rgba(110, 143, 213, 0.08);
+  color: #dfeafc;
+  border: 1px solid rgba(110, 143, 213, 0.2);
+}
+
+.status-message.success {
+  background: rgba(78, 201, 138, 0.08);
+  color: #d8f8e7;
+  border: 1px solid rgba(78, 201, 138, 0.2);
+}
+
+.status-message.error {
+  background: rgba(224, 106, 90, 0.08);
+  color: #ffd1cd;
+  border: 1px solid rgba(224, 106, 90, 0.2);
+}
+
+.sugerencias {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 50px));
+  margin-top: 10px;
+  z-index: 90;
+}
+
+.sugerencias ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: rgba(12, 18, 24, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.lista {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(197, 163, 99, 0.12);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lista:hover {
+  background: rgba(209, 161, 77, 0.08);
+}
+
+.lista:last-child {
+  border-bottom: none;
+}
+
+.lista img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.lista a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.table-panel {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(18, 24, 30, 0.96);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  padding: 10px;
+}
+
+thead th {
+  padding: 14px 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+tbody tr {
+  background: rgba(18, 24, 30, 0.92);
+}
+
+tbody th {
+  padding: 12px 10px;
+  border: 1px solid rgba(197, 163, 99, 0.12);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.character-thumb {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.correcto {
+  background: rgba(78, 201, 138, 0.12) !important;
+  border-color: rgba(78, 201, 138, 0.28) !important;
+  color: #d8f8e7 !important;
+}
+
+.incorrecto {
+  background: rgba(224, 106, 90, 0.12) !important;
+  border-color: rgba(224, 106, 90, 0.28) !important;
+  color: #ffd1cd !important;
+}
+
+.parcial {
+  background: rgba(224, 184, 92, 0.12) !important;
+  border-color: rgba(224, 184, 92, 0.28) !important;
+  color: #fbe7b2 !important;
+}
+
+@media (max-width: 700px) {
+  .game-shell {
+    width: min(100% - 18px, 1100px);
+    margin: 20px auto;
+    padding: 18px 12px 24px;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  .input-row input,
+  .input-row button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  table {
+    min-width: 650px;
+  }
+}

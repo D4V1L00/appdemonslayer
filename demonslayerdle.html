@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demon Slayer DLE</title>
+    <link rel="stylesheet" href="demonslayerdle.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand-banner">
+            <div class="brand-left">
+                <img class="brand-logo" src="Demon-Slayer-DLE-9-8-2026.png" alt="Logo Demon Slayer DLE">
+            </div>
+            <div class="brand-center">
+                <span class="eyebrow">Demon Slayer</span>
+                <h1>Guess the Daily Character</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="game-shell">
+        <section class="panel">
+            <div class="input-row">
+                <input type="text" id="personaje" placeholder="Type a name..." autocomplete="off" onkeyup="sugerencia()">
+                <button id="btnBuscar" type="button">Guess</button>
+            </div>
+            <div id="mensajeEstado" class="status-message" aria-live="polite"></div>
+            <div id="sugerencias" class="sugerencias"></div>
+        </section>
+
+        <section class="table-panel">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Race</th>
+                        <th>Gender</th>
+                        <th>Combat style</th>
+                        <th>First arc</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="demonslayerdle.js"></script>
+</body>
+
+</html>
