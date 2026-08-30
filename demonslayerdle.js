@@ -218,13 +218,60 @@ function finalizarVictoria(personaje) {
   if (input) input.disabled = true;
   if (button) button.disabled = true;
 
-  const mensaje = `¡HAS GANADO! El personaje era ${personaje.name}.`;
-  mostrarMensaje(mensaje, 'success');
-
   const contenedor = document.getElementById('sugerencias');
   if (contenedor) {
     contenedor.innerHTML = '';
   }
+
+  // Crear overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'victory-overlay';
+
+  // Crear modal
+  const modal = document.createElement('div');
+  modal.className = 'victory-modal';
+
+  // Imagen del personaje
+  const img = document.createElement('img');
+  img.src = personaje.img || '';
+  img.alt = personaje.name;
+  img.className = 'victory-image';
+
+  // Título
+  const title = document.createElement('div');
+  title.className = 'victory-title';
+  title.textContent = '¡FELICIDADES!';
+
+  // Nombre del personaje
+  const characterName = document.createElement('div');
+  characterName.className = 'victory-character';
+  characterName.textContent = personaje.name;
+
+  // Mensaje
+  const message = document.createElement('div');
+  message.className = 'victory-message';
+  message.textContent = `Has adivinado correctamente. El personaje del día era ${personaje.name}.`;
+
+  // Botón para cerrar
+  const button2 = document.createElement('button');
+  button2.className = 'victory-button';
+  button2.textContent = 'Volver a Intentar Mañana';
+  button2.onclick = () => {
+    location.reload();
+  };
+
+  // Agregar elementos al modal
+  modal.appendChild(img);
+  modal.appendChild(title);
+  modal.appendChild(characterName);
+  modal.appendChild(message);
+  modal.appendChild(button2);
+
+  // Agregar modal al overlay
+  overlay.appendChild(modal);
+
+  // Agregar overlay al body
+  document.body.appendChild(overlay);
 }
 
 function devolverObjeto(nombre) {
