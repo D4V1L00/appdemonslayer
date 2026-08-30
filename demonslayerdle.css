@@ -248,8 +248,8 @@ h1 {
 }
 
 .lista img {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   border-radius: 8px;
   box-shadow: none;
@@ -295,8 +295,8 @@ tbody th {
 }
 
 .character-thumb {
-  width: 108px;
-  height: 108px;
+  width: 72px;
+  height: 72px;
   object-fit: contain;
   border-radius: 10px;
   box-shadow: none;
