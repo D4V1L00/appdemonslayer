@@ -80,6 +80,11 @@ function buscar() {
     return;
   }
 
+  if (nombre.length < 3) {
+    mostrarMensaje('Escribe al menos 3 caracteres del nombre del personaje.', 'info');
+    return;
+  }
+
   const nombreNormalizado = nombre.toLowerCase();
 
   if (personajesUsados.has(nombreNormalizado)) {
