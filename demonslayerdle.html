@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -21,17 +21,16 @@
             </div>
             <div class="brand-center">
                 <span class="eyebrow">Demon Slayer</span>
-                <h1>Guess the Daily Character</h1>
+                <h1 data-i18n="heading">Guess the Daily Character</h1>
             </div>
-            <div id="google_translate_element" aria-label="Language selector"></div>
         </div>
     </header>
 
     <div class="game-shell">
         <section class="panel">
             <div class="input-row">
-                <input type="text" id="personaje" placeholder="Type a name..." autocomplete="off" onkeyup="sugerencia()">
-                <button id="btnBuscar" type="button">Guess</button>
+                <input type="text" id="personaje" data-i18n-placeholder="inputPlaceholder" placeholder="Type a name..." autocomplete="off" onkeyup="sugerencia()">
+                <button id="btnBuscar" data-i18n="guessButton" type="button">Guess</button>
             </div>
             <div id="mensajeEstado" class="status-message" aria-live="polite"></div>
             <div id="sugerencias" class="sugerencias"></div>
@@ -41,11 +40,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Character</th>
-                        <th>Race</th>
-                        <th>Gender</th>
-                        <th>Combat style</th>
-                        <th>First arc</th>
+                        <th data-i18n="character">Character</th>
+                        <th data-i18n="race">Race</th>
+                        <th data-i18n="gender">Gender</th>
+                        <th data-i18n="combatStyle">Combat style</th>
+                        <th data-i18n="firstArc">First arc</th>
                     </tr>
                 </thead>
                 <tbody id="tabla"></tbody>
@@ -54,16 +53,6 @@
     </div>
 
     <script src="demonslayerdle.js"></script>
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'de,en,es,fr,it,ja,ko,pt,zh-CN',
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-    </script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

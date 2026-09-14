@@ -2,8 +2,80 @@ let personajeDiario = null;
 let lista = [];
 let personajesUsados = new Set();
 let juegoTerminado = false;
+const idioma = navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en';
+const traducciones = {
+  en: {
+    heading: 'Guess the Daily Character',
+    inputPlaceholder: 'Type a name...',
+    guessButton: 'Guess',
+    character: 'Character',
+    race: 'Race',
+    gender: 'Gender',
+    combatStyle: 'Combat style',
+    firstArc: 'First arc',
+    unknown: 'Unknown',
+    none: 'None',
+    loading: 'Loading characters...',
+    noMatches: 'No matches',
+    dailyUnavailable: 'The character of the day is unavailable.',
+    dailyLoadError: 'An error occurred while loading today\'s selection.',
+    apiError: 'Could not connect to the API.',
+    enterName: 'Type a character name first.',
+    minCharacters: 'Type at least 3 characters of the name.',
+    alreadyUsed: 'That character has already been used. Try another.',
+    notFound: 'That character was not found.',
+    notReady: 'The character does not exist or is not ready yet.',
+    searchError: 'There was a problem searching for the character.',
+    congratulations: 'CONGRATULATIONS!',
+    victoryMessage: (name) => `You guessed correctly. The character of the day was ${name}.`,
+    tryTomorrow: 'Try Again Tomorrow'
+  },
+  es: {
+    heading: 'Adivina el personaje del día',
+    inputPlaceholder: 'Escribe un nombre...',
+    guessButton: 'Adivinar',
+    character: 'Personaje',
+    race: 'Raza',
+    gender: 'Género',
+    combatStyle: 'Estilo de combate',
+    firstArc: 'Primer arco',
+    unknown: 'Desconocido',
+    none: 'Ninguno',
+    loading: 'Cargando personajes...',
+    noMatches: 'No hay coincidencias',
+    dailyUnavailable: 'El personaje del día no está disponible.',
+    dailyLoadError: 'Ha ocurrido un error al cargar la selección del día.',
+    apiError: 'No se pudo conectar con la API.',
+    enterName: 'Escribe el nombre de un personaje primero.',
+    minCharacters: 'Escribe al menos 3 caracteres del nombre.',
+    alreadyUsed: 'Ese personaje ya ha sido usado. Busca otro.',
+    notFound: 'No se ha encontrado ese personaje.',
+    notReady: 'El personaje no existe o aún no está listo.',
+    searchError: 'Ha ocurrido un problema al buscar el personaje.',
+    congratulations: '¡FELICIDADES!',
+    victoryMessage: (name) => `Has adivinado correctamente. El personaje del día era ${name}.`,
+    tryTomorrow: 'Volver a intentar mañana'
+  }
+};
+
+function t(key, ...args) {
+  const value = traducciones[idioma][key];
+  return typeof value === 'function' ? value(...args) : value;
+}
+
+function aplicarIdioma() {
+  document.documentElement.lang = idioma;
+  document.querySelectorAll('[data-i18n]').forEach((elemento) => {
+    elemento.textContent = t(elemento.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((elemento) => {
+    elemento.placeholder = t(elemento.dataset.i18nPlaceholder);
+  });
+}
 
 window.onload = preparacion;
+
+document.addEventListener('DOMContentLoaded', aplicarIdioma);
 
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('personaje');
@@ -41,7 +113,7 @@ function preparacion() {
 
       const nombreDiario = lista[indice]?.name;
       if (!nombreDiario) {
-        mostrarMensaje('No se pudo cargar el personaje del día.', 'error');
+          mostrarMensaje(t('dailyUnavailable'), 'error');
         return;
       }
 
@@ -50,17 +122,17 @@ function preparacion() {
         personajeDiario = personaje.content?.[0] || null;
 
         if (!personajeDiario) {
-          mostrarMensaje('El personaje del día no está disponible.', 'error');
+          mostrarMensaje(t('dailyUnavailable'), 'error');
         }
       } catch (error) {
         console.error(error);
-        mostrarMensaje('Ha ocurrido un error al cargar la selección del día.', 'error');
+        mostrarMensaje(t('dailyLoadError'), 'error');
       }
     }
   };
 
   xhr.onerror = function () {
-    mostrarMensaje('No se pudo conectar con la API.', 'error');
+    mostrarMensaje(t('apiError'), 'error');
   };
 
   xhr.send();
@@ -75,20 +147,20 @@ function buscar() {
   const nombre = input.value.trim();
 
   if (!nombre) {
-    mostrarMensaje('Escribe el nombre de un personaje primero.', 'info');
+    mostrarMensaje(t('enterName'), 'info');
     input.focus();
     return;
   }
 
   if (nombre.length < 3) {
-    mostrarMensaje('Escribe al menos 3 caracteres del nombre del personaje.', 'info');
+    mostrarMensaje(t('minCharacters'), 'info');
     return;
   }
 
   const nombreNormalizado = nombre.toLowerCase();
 
   if (personajesUsados.has(nombreNormalizado)) {
-    mostrarMensaje('Ese personaje ya ha sido usado. Busca otro.', 'info');
+    mostrarMensaje(t('alreadyUsed'), 'info');
     input.value = '';
     return;
   }
@@ -99,7 +171,7 @@ function buscar() {
   xhr.open('GET', url, true);
   xhr.onload = function () {
     if (xhr.readyState !== 4 || xhr.status !== 200) {
-      mostrarMensaje('No se ha encontrado ese personaje.', 'error');
+      mostrarMensaje(t('notFound'), 'error');
       return;
     }
 
@@ -107,14 +179,14 @@ function buscar() {
     const personaje = respuesta.content?.[0];
 
     if (!personaje || !personajeDiario) {
-      mostrarMensaje('El personaje no existe o aún no está listo.', 'error');
+      mostrarMensaje(t('notReady'), 'error');
       return;
     }
 
     const nombrePersonajeNormalizado = personaje.name.toLowerCase();
 
     if (personajesUsados.has(nombrePersonajeNormalizado)) {
-      mostrarMensaje('Ese personaje ya ha sido usado. Busca otro.', 'info');
+      mostrarMensaje(t('alreadyUsed'), 'info');
       input.value = '';
       return;
     }
@@ -130,7 +202,7 @@ function buscar() {
   };
 
   xhr.onerror = function () {
-    mostrarMensaje('Ha ocurrido un problema al buscar el personaje.', 'error');
+    mostrarMensaje(t('searchError'), 'error');
   };
 
   xhr.send();
@@ -150,14 +222,14 @@ function crearFila(personaje) {
 
   const columnaRaza = document.createElement('th');
   const raza = document.createElement('span');
-  raza.textContent = personaje.race || 'Desconocida';
+  raza.textContent = personaje.race || t('unknown');
   columnaRaza.appendChild(raza);
   fila.appendChild(columnaRaza);
   columnaRaza.className = personaje.race === personajeDiario.race ? 'correcto' : 'incorrecto';
 
   const columnaGenero = document.createElement('th');
   const genero = document.createElement('span');
-  genero.textContent = personaje.gender || 'Desconocido';
+  genero.textContent = personaje.gender || t('unknown');
   columnaGenero.appendChild(genero);
   fila.appendChild(columnaGenero);
   columnaGenero.className = personaje.gender === personajeDiario.gender ? 'correcto' : 'incorrecto';
@@ -169,12 +241,12 @@ function crearFila(personaje) {
 
   if (estilosPersonaje.length === 0) {
     const texto = document.createElement('span');
-    texto.textContent = 'Ninguno';
+    texto.textContent = t('none');
     contenedorEstilos.appendChild(texto);
   } else {
     estilosPersonaje.forEach((estilo) => {
       const item = document.createElement('div');
-      item.textContent = estilo.name || 'Desconocido';
+      item.textContent = estilo.name || t('unknown');
       contenedorEstilos.appendChild(item);
     });
   }
@@ -207,7 +279,7 @@ function crearFila(personaje) {
 
   const columnaArco = document.createElement('th');
   const arco = document.createElement('span');
-  arco.textContent = personaje.first_arc_appearance?.name || 'Desconocido';
+  arco.textContent = personaje.first_arc_appearance?.name || t('unknown');
   columnaArco.appendChild(arco);
   fila.appendChild(columnaArco);
   columnaArco.className = personaje.first_arc_appearance?.name === personajeDiario.first_arc_appearance?.name ? 'correcto' : 'incorrecto';
@@ -245,7 +317,7 @@ function finalizarVictoria(personaje) {
   // Título
   const title = document.createElement('div');
   title.className = 'victory-title';
-  title.textContent = '¡FELICIDADES!';
+  title.textContent = t('congratulations');
 
   // Nombre del personaje
   const characterName = document.createElement('div');
@@ -255,12 +327,12 @@ function finalizarVictoria(personaje) {
   // Mensaje
   const message = document.createElement('div');
   message.className = 'victory-message';
-  message.textContent = `Has adivinado correctamente. El personaje del día era ${personaje.name}.`;
+  message.textContent = t('victoryMessage', personaje.name);
 
   // Botón para cerrar
   const button2 = document.createElement('button');
   button2.className = 'victory-button';
-  button2.textContent = 'Volver a Intentar Mañana';
+  button2.textContent = t('tryTomorrow');
   button2.onclick = () => {
     location.reload();
   };
@@ -313,7 +385,7 @@ function sugerencia() {
   }
 
   if (!lista || lista.length === 0) {
-    contenedor.textContent = 'Cargando personajes...';
+    contenedor.textContent = t('loading');
     return;
   }
 
@@ -327,7 +399,7 @@ function sugerencia() {
     .slice(0, 5);
 
   if (coincidencias.length === 0) {
-    contenedor.textContent = 'No hay coincidencias';
+    contenedor.textContent = t('noMatches');
     return;
   }
 
