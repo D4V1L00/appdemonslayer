@@ -57,10 +57,40 @@ const traducciones = {
     tryTomorrow: 'Volver a intentar mañana'
   }
 };
+const valoresTraducidos = {
+  es: {
+    human: 'Humano',
+    demon: 'Demonio',
+    male: 'Masculino',
+    female: 'Femenino',
+    unknown: 'Desconocido',
+    'final selection': 'Selección final',
+    'kidnapper\'s bog': 'Pantano del secuestrador',
+    asakusa: 'Asakusa',
+    'tsuzumi mansion': 'Mansión Tsuzumi',
+    'natagumo mountain': 'Montaña Natagumo',
+    'rehabilitation training': 'Entrenamiento de rehabilitación',
+    'mugen train': 'Tren infinito',
+    'entertainment district': 'Distrito del entretenimiento',
+    'swordsmith village': 'Aldea de los herreros',
+    'hashira training': 'Entrenamiento de los Hashira',
+    'infinity castle': 'Castillo Infinito',
+    'sunrise countdown': 'Cuenta atrás del amanecer'
+  },
+  en: {}
+};
 
 function t(key, ...args) {
   const value = traducciones[idioma][key];
   return typeof value === 'function' ? value(...args) : value;
+}
+
+function traducirValor(valor) {
+  if (!valor || idioma === 'en') {
+    return valor;
+  }
+
+  return valoresTraducidos[idioma][valor.trim().toLowerCase()] || valor;
 }
 
 function aplicarIdioma() {
@@ -222,14 +252,14 @@ function crearFila(personaje) {
 
   const columnaRaza = document.createElement('th');
   const raza = document.createElement('span');
-  raza.textContent = personaje.race || t('unknown');
+  raza.textContent = traducirValor(personaje.race) || t('unknown');
   columnaRaza.appendChild(raza);
   fila.appendChild(columnaRaza);
   columnaRaza.className = personaje.race === personajeDiario.race ? 'correcto' : 'incorrecto';
 
   const columnaGenero = document.createElement('th');
   const genero = document.createElement('span');
-  genero.textContent = personaje.gender || t('unknown');
+  genero.textContent = traducirValor(personaje.gender) || t('unknown');
   columnaGenero.appendChild(genero);
   fila.appendChild(columnaGenero);
   columnaGenero.className = personaje.gender === personajeDiario.gender ? 'correcto' : 'incorrecto';
@@ -279,7 +309,7 @@ function crearFila(personaje) {
 
   const columnaArco = document.createElement('th');
   const arco = document.createElement('span');
-  arco.textContent = personaje.first_arc_appearance?.name || t('unknown');
+  arco.textContent = traducirValor(personaje.first_arc_appearance?.name) || t('unknown');
   columnaArco.appendChild(arco);
   fila.appendChild(columnaArco);
   columnaArco.className = personaje.first_arc_appearance?.name === personajeDiario.first_arc_appearance?.name ? 'correcto' : 'incorrecto';
