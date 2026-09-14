@@ -75,7 +75,23 @@ const valoresTraducidos = {
     'swordsmith village': 'Aldea de los herreros',
     'hashira training': 'Entrenamiento de los Hashira',
     'infinity castle': 'Castillo Infinito',
-    'sunrise countdown': 'Cuenta atrás del amanecer'
+    'sunrise countdown': 'Cuenta atrás del amanecer',
+    'water breathing': 'Respiración del agua',
+    'thunder breathing': 'Respiración del trueno',
+    'beast breathing': 'Respiración de la bestia',
+    'flame breathing': 'Respiración de la llama',
+    'insect breathing': 'Respiración del insecto',
+    'sound breathing': 'Respiración del sonido',
+    'mist breathing': 'Respiración de la niebla',
+    'love breathing': 'Respiración del amor',
+    'serpent breathing': 'Respiración de la serpiente',
+    'flower breathing': 'Respiración de la flor',
+    'wind breathing': 'Respiración del viento',
+    'stone breathing': 'Respiración de la piedra',
+    'moon breathing': 'Respiración de la luna',
+    'sun breathing': 'Respiración del sol',
+    'blood demon art': 'Arte demoníaco de sangre',
+    none: 'Ninguno'
   },
   en: {}
 };
@@ -276,7 +292,7 @@ function crearFila(personaje) {
   } else {
     estilosPersonaje.forEach((estilo) => {
       const item = document.createElement('div');
-      item.textContent = estilo.name || t('unknown');
+      item.textContent = traducirValor(estilo.name) || t('unknown');
       contenedorEstilos.appendChild(item);
     });
   }
